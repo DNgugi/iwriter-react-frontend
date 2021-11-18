@@ -1,11 +1,25 @@
-import axios from 'axios';
+import Axios from 'axios';
+
+
+/*
+ * Create a Api object with Axios and
+ * configure it for the WordPRess Rest Api.
+ *
+ * The 'mynamespace' object is injected into the page
+ * using the WordPress wp_localize_script function.
+ */
+const Api = Axios.create({
+    baseURL: 'http://localhost/wordpress/wp-json/iwriter-pro/v1/',
+});
+
+export default Api;
 
 export const sendForm = async (values) => {
     const calculateOrderTotal = () => {
         return Math.floor(Math.random() * 30);
     }
     
-    await axios.post('http://localhost/wordpress/wp-json/iwriter-pro/v1/orders', {
+    await Api.post('orders', {
         "amount": calculateOrderTotal(),
         "topic" : values.subject,
         "deadline": values.deadline,
@@ -19,3 +33,8 @@ export const sendForm = async (values) => {
         console.log(error);
       });
 }
+
+export const getAllOrders = async () => {
+    
+}
+

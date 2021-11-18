@@ -1,5 +1,5 @@
 import React from 'react'
-import * as api from '../api/api';
+import { sendForm } from '../api/api';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 
@@ -18,12 +18,14 @@ const OrderForm = () => {
             }
         } 
         validationSchema = {validationSchema}
-        onSubmit={(values, { setSubmitting }) => {
+        onSubmit={(values, { setSubmitting, resetForm }) => {
 
             setTimeout(() => {
-                api.sendForm(values);
+                sendForm(values);
 
-              setSubmitting(false);   
+              setSubmitting(false); 
+              resetForm();
+                
             }, 400);
    
           }}
@@ -36,7 +38,8 @@ const OrderForm = () => {
                     handleChange,
                     handleBlur,
                     handleSubmit,
-                    isSubmitting
+                    isSubmitting,
+                    resetForm
                 }) => (
                     <form id="order-form" className='card' onSubmit={handleSubmit}>
                     <div className="input-group">
@@ -61,6 +64,7 @@ const OrderForm = () => {
                         
                                      value={values.subject}
                         >
+                            <option value=""></option>
                             <option value="chem">Chemistry</option>
                             <option value="bio"> Biology</option>
                         </select>

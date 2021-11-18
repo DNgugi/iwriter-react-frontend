@@ -1,7 +1,26 @@
+import Axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import OrderForm from './forms/orderForm';
+import Orders from './components/Orders';
+
+// import {getAllOrders} from './api/api';
+// import { useState } from 'react';
+ 
 
 function App() {
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        async function fetchData() {
+            const result = await Axios(
+                'http://localhost/wordpress/wp-json/iwriter-pro/v1/orders',
+              );
+          
+              setData(result.data);
+        }
+        fetchData();
+      }, []); // Or [] if effect doesn't need props or state
+          
   return (
     <div className="App">
       <div className="main-wrapper">
@@ -23,6 +42,9 @@ function App() {
                 <OrderForm />
             </div>
             <div id="services">
+                <div className="orders">
+                    <Orders data={data}/>
+                </div>
                 <h2>Our services</h2>
                 <div className="card">
                     <h3>Academic Writing</h3>
